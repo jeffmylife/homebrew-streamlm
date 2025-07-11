@@ -297,7 +297,12 @@ class Streamlm < Formula
   end
 
   def install
-    virtualenv_create(libexec, "python3")
+    # Create a temporary directory for pre-installing binary wheels
+    tmp_dir = "/tmp/homebrew-streamlm-#{Process.pid}"
+    system "mkdir", "-p", tmp_dir
+    
+    # Create virtual environment
+    system "python3", "-m", "venv", "--system-site-packages", "--without-pip", libexec
     
     # Install packages that require binary wheels (Rust compilation) first
     system "#{libexec}/bin/pip", "install", "--only-binary=hf-xet,tokenizers", 
@@ -317,6 +322,9 @@ class Streamlm < Formula
     
     # Create the executable link
     bin.install_symlink libexec/"bin/lm"
+    
+    # Clean up
+    system "rm", "-rf", tmp_dir
   end
 
   test do
