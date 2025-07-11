@@ -300,7 +300,7 @@ class Streamlm < Formula
     venv = virtualenv_create(libexec, "python3")
     
     # Install packages that require binary wheels (Rust compilation)
-    system venv/"bin/pip", "install", "--only-binary=hf-xet,tokenizers", 
+    system "#{venv}/bin/pip", "install", "--only-binary=hf-xet,tokenizers", 
            "hf-xet==1.1.5", "tokenizers==0.21.2"
     
     # Install everything else, excluding the ones we already installed
