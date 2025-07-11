@@ -297,20 +297,26 @@ class Streamlm < Formula
   end
 
   def install
-    venv = virtualenv_create(libexec, "python3")
+    virtualenv_create(libexec, "python3")
     
-    # Install packages that require binary wheels (Rust compilation)
+    # Install packages that require binary wheels (Rust compilation) first
     system "#{libexec}/bin/pip", "install", "--only-binary=hf-xet,tokenizers", 
            "hf-xet==1.1.5", "tokenizers==0.21.2"
     
-    # Install everything else, excluding the ones we already installed
-    resources.each do |r|
-      next if ["hf-xet", "tokenizers"].include?(r.name)
-      venv.pip_install r
+    # Install everything else using standard method, but skip the ones we already installed
+    resources.reject { |r| ["hf-xet", "tokenizers"].include?(r.name) }.each do |r|
+      resource(r.name).stage do
+        system "#{libexec}/bin/pip", "install", "--verbose", "--no-deps", 
+               "--no-binary", ":all:", "--ignore-installed", Pathname.pwd
+      end
     end
     
     # Install the main package
-    venv.pip_install_and_link buildpath
+    system "#{libexec}/bin/pip", "install", "--verbose", "--no-deps", 
+           "--no-binary", ":all:", "--ignore-installed", buildpath
+    
+    # Create the executable link
+    bin.install_symlink libexec/"bin/lm"
   end
 
   test do
