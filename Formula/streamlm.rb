@@ -9,6 +9,18 @@ class Streamlm < Formula
 
   depends_on "python3"
 
+  # Packages that require binary wheels (Rust compilation)
+  resource "hf-xet" do
+    url "https://files.pythonhosted.org/packages/ed/d4/7685999e85945ed0d7f0762b686ae7015035390de1161dcea9d5276c134c/hf_xet-1.1.5.tar.gz"
+    sha256 "69ebbcfd9ec44fdc2af73441619eeb06b94ee34511bbcf57cd423820090f5694"
+  end
+
+  resource "tokenizers" do
+    url "https://files.pythonhosted.org/packages/ab/2d/b0fce2b8201635f60e8c95990080f58461cc9ca3d5026de2e900f38a7f21/tokenizers-0.21.2.tar.gz"
+    sha256 "fdc7cffde3e2113ba0e6cc7318c40e3438a4d74bbc62bf04bcc63bdfb082ac77"
+  end
+
+  # Other packages that can be built from source
   resource "aiohappyeyeballs" do
     url "https://files.pythonhosted.org/packages/26/30/f84a107a9c4331c14b2b586036f40965c128aa4fee4dda5d3d51cb14ad54/aiohappyeyeballs-2.6.1.tar.gz"
     sha256 "c3f9d0113123803ccadfdf3f0faa505bc78e6a72d1cc4806cbd719826e943558"
@@ -77,11 +89,6 @@ class Streamlm < Formula
   resource "h11" do
     url "https://files.pythonhosted.org/packages/01/ee/02a2c011bdab74c6fb3c75474d40b3052059d95df7e73351460c8588d963/h11-0.16.0.tar.gz"
     sha256 "4e35b956cf45792e4caa5885e69fba00bdbc6ffafbfa020300e549b208ee5ff1"
-  end
-
-  resource "hf-xet" do
-    url "https://files.pythonhosted.org/packages/ed/d4/7685999e85945ed0d7f0762b686ae7015035390de1161dcea9d5276c134c/hf_xet-1.1.5.tar.gz"
-    sha256 "69ebbcfd9ec44fdc2af73441619eeb06b94ee34511bbcf57cd423820090f5694"
   end
 
   resource "httpcore" do
@@ -254,11 +261,6 @@ class Streamlm < Formula
     sha256 "d02a5ca6a938e0490e1ff957bc48c8b078c88cb83977be1625b1fd8aac792c5d"
   end
 
-  resource "tokenizers" do
-    url "https://files.pythonhosted.org/packages/ab/2d/b0fce2b8201635f60e8c95990080f58461cc9ca3d5026de2e900f38a7f21/tokenizers-0.21.2.tar.gz"
-    sha256 "fdc7cffde3e2113ba0e6cc7318c40e3438a4d74bbc62bf04bcc63bdfb082ac77"
-  end
-
   resource "tqdm" do
     url "https://files.pythonhosted.org/packages/a8/4b/29b4ef32e036bb34e4ab51796dd745cdba7ed47ad142a9f4a1eb8e0c744d/tqdm-4.67.1.tar.gz"
     sha256 "f8aef9c52c08c13a65f30ea34f4e5aac3fd1a34959879d7e59e63027286627f2"
@@ -295,8 +297,20 @@ class Streamlm < Formula
   end
 
   def install
-    virtualenv_create(libexec, "python3")
-    virtualenv_install_with_resources
+    venv = virtualenv_create(libexec, "python3")
+    
+    # Install packages that require binary wheels (Rust compilation)
+    system venv/"bin/pip", "install", "--only-binary=hf-xet,tokenizers", 
+           "hf-xet==1.1.5", "tokenizers==0.21.2"
+    
+    # Install everything else, excluding the ones we already installed
+    resources.each do |r|
+      next if ["hf-xet", "tokenizers"].include?(r.name)
+      venv.pip_install r
+    end
+    
+    # Install the main package
+    venv.pip_install_and_link buildpath
   end
 
   test do
