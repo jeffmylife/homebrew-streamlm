@@ -300,7 +300,7 @@ class Streamlm < Formula
     system "mkdir", "-p", tmp_dir
     
     # Create virtual environment
-    system "python3", "-m", "venv", "--system-site-packages", "--without-pip", libexec
+    system "python3", "-m", "venv", "--system-site-packages", libexec
     
     # Install packages that require binary wheels (Rust compilation) first
     system "#{libexec}/bin/pip", "install", "--only-binary=hf-xet,tokenizers", 
