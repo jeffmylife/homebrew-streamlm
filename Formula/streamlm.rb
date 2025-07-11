@@ -3,7 +3,7 @@ class Streamlm < Formula
 
   desc "A command-line interface for interacting with various Large Language Models"
   homepage "https://github.com/jeffmylife/streamlm"
-  url "https://files.pythonhosted.org/packages/eb/b2/b4d180a0472dede59653010922466d25112ae388bbbc77616d894cb18fcb/streamlm-0.1.6.tar.gz"
+  url "https://files.pythonhosted.org/packages/c4/49/691607e5c7c80269b898653bc00c0f9b962802500aec74c4564ae57c18bb/streamlm-0.1.7.tar.gz"
   sha256 "86ee9eca39417cb076d9b2eb2e5c873a65161960923de0171ac4158ac787fd19"
   license "MIT"
 
@@ -159,12 +159,6 @@ class Streamlm < Formula
   license "MIT"
   end
 
-  resource "Markdown" do
-    url "https://files.pythonhosted.org/packages/d7/c2/4ab49206c17f75cb08d6311171f2d65798988db4360c4d1485bd0eedd67c/markdown-3.8.2.tar.gz"
-    sha256 "86ee9eca39417cb076d9b2eb2e5c873a65161960923de0171ac4158ac787fd19"
-  license "MIT"
-  end
-
   resource "markdown-it-py" do
     url "https://files.pythonhosted.org/packages/38/71/3b932df36c1a044d397a1f92d1cf91ee0a503d91e470cbd670aa66b07ed0/markdown-it-py-3.0.0.tar.gz"
     sha256 "86ee9eca39417cb076d9b2eb2e5c873a65161960923de0171ac4158ac787fd19"
@@ -173,12 +167,6 @@ class Streamlm < Formula
 
   resource "MarkupSafe" do
     url "https://files.pythonhosted.org/packages/b2/97/5d42485e71dfc078108a86d6de8fa46db44a1a9295e89c5d6d4a06e23a62/markupsafe-3.0.2.tar.gz"
-    sha256 "86ee9eca39417cb076d9b2eb2e5c873a65161960923de0171ac4158ac787fd19"
-  license "MIT"
-  end
-
-  resource "md2term" do
-    url "https://files.pythonhosted.org/packages/18/c6/71841131fb745cb11c14bb44650cea68ebb7e0f6f22f359eee43d98c8dc0/md2term-1.0.2.tar.gz"
     sha256 "86ee9eca39417cb076d9b2eb2e5c873a65161960923de0171ac4158ac787fd19"
   license "MIT"
   end
