@@ -1,8 +1,8 @@
 class Streamlm < Formula
   desc "A command-line interface for interacting with various Large Language Models"
   homepage "https://github.com/jeffmylife/streamlm"
-  url "https://files.pythonhosted.org/packages/58/b9/2f2c2dbb069c8ed18a3f4163e77491ef25cc023ffe880255cf2db7ec2f0d/streamlm-0.1.9.tar.gz"
-  sha256 "bd92f0db811db50c3598f4e145c6761c933f8f7b8d606e5a613e62e6b636fe87"
+  url "https://files.pythonhosted.org/packages/f2/ec/c6dde20a705ce6f923b09acd5a2a4e4fabdf9e047fc873b2bcafcb61473f/streamlm-0.1.10.tar.gz"
+  sha256 "b8b23dc2de23d02e849391ee8506e46a76ab80df27d0f50c026568499ef83a7a"
   license "MIT"
 
   depends_on "uv"
